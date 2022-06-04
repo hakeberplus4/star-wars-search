@@ -68,7 +68,7 @@ public class StarWarsConsoleApplication {
                 throw new RuntimeException(e);
             }
         }
-        System.out.println("Enter Star Wars character name:");
+        System.out.println("\nEnter Star Wars character name:");
         return scanner.nextLine();
     }
 }
