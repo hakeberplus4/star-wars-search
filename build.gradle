@@ -1,0 +1,24 @@
+plugins {
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+}
+
+group = 'com.valstro'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'io.socket:socket.io-client:2.0.1'
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
+
+	compileOnly 'org.projectlombok:lombok:1.18.24'
+	annotationProcessor 'org.projectlombok:lombok:1.18.24'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
