@@ -1,0 +1,21 @@
+---
+version: '3'
+
+services:
+  backend:
+    image: clonardo/socketio-backend
+
+  starwars:
+    image: starwars/latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    stdin_open: true
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        ls
+        ./gradlew run --console=plain
+    depends_on:
+      - backend
