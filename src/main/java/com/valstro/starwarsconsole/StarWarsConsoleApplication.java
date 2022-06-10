@@ -9,14 +9,18 @@ import io.socket.engineio.client.transports.WebSocket;
 import org.json.JSONObject;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Scanner;
-
 import static java.lang.Thread.sleep;
 import static java.util.Collections.singletonMap;
 
 public class StarWarsConsoleApplication {
 
     static boolean readyForInput = true;
+    static List<SearchResult> results = new ArrayList<>();
 
     public static void main(String[] args) {
 
@@ -41,8 +45,13 @@ public class StarWarsConsoleApplication {
             try {
                 String stringResult = searchResults[0].toString();
                 SearchResult searchResult = new ObjectMapper().readValue(stringResult, SearchResult.class);
-                System.out.println(searchResult);
+                results.add(searchResult);
                 if (searchResult.page == searchResult.resultCount) {
+                    // Sort results
+                    Collections.sort(results);
+                    results.forEach(result -> {
+                      System.out.println(result.name);
+                    });
                     readyForInput = true;
                 }
             } catch (JsonProcessingException e) {
