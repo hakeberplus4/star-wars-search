@@ -6,7 +6,7 @@ services:
     image: clonardo/socketio-backend
 
   starwars:
-    image: starwars/latest
+    image: starwars:latest
     build:
       context: .
       dockerfile: Dockerfile

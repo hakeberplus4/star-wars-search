@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
+
 import static java.lang.Thread.sleep;
 import static java.util.Collections.singletonMap;
 
@@ -31,6 +32,7 @@ public class StarWarsConsoleApplication {
 
         while (true) {
             String userInput = readOneLine(scanner);
+            System.out.println("INPUT: " + userInput);
             if (userInput.startsWith("quit")) {
                 System.exit(0);
             } else {
@@ -46,13 +48,21 @@ public class StarWarsConsoleApplication {
                 String stringResult = searchResults[0].toString();
                 SearchResult searchResult = new ObjectMapper().readValue(stringResult, SearchResult.class);
                 results.add(searchResult);
-                if (searchResult.page == searchResult.resultCount) {
+                System.out.print(".");
+                if (searchResult.page == -1) {
+                    System.out.println("ERROR: " + searchResult.getError());
+                    readyForInput = true;
+                    results.clear();
+                } else if (searchResult.page == searchResult.resultCount) {
                     // Sort results
+                    System.out.println("COUNT: " + results.size());
                     Collections.sort(results);
+                    System.out.println("COUNT: " + results.size());
                     results.forEach(result -> {
-                      System.out.println(result.name);
+                        System.out.println(result.name);
                     });
                     readyForInput = true;
+                    results.clear();
                 }
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
@@ -61,7 +71,7 @@ public class StarWarsConsoleApplication {
     }
 
     private static Socket newSocket() {
-        URI uri = URI.create("http://localhost:3000");
+        URI uri = URI.create("http://backend:3000");
         IO.Options options = IO.Options.builder()
                 .setForceNew(false)
                 .setTransports(new String[]{WebSocket.NAME})
